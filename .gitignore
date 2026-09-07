@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local configuration and data
+.env
+.env.*
+!.env.example
+*.db
+*.sqlite3
+
+# Tooling
+.vscode/
+.pytest_cache/
+.mypy_cache/
