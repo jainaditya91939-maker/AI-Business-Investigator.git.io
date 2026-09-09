@@ -117,3 +117,38 @@ def create_transaction(transaction: TransactionCreate):
         }
     }
 
+@router.get("/transactions")
+def get_transactions():
+
+    with engine.connect() as connection:
+
+        result = connection.execute(
+            text("""
+                SELECT
+                    id,
+                    supplier_id,
+                    transaction_type,
+                    amount,
+                    transaction_date,
+                    reference_number,
+                    notes
+                FROM transactions
+                ORDER BY transaction_date DESC;
+            """)
+        )
+
+        transactions = result.fetchall()
+
+    return [
+        {
+            "id": transaction.id,
+            "supplier_id": transaction.supplier_id,
+            "transaction_type": transaction.transaction_type,
+            "amount": float(transaction.amount),
+            "transaction_date": str(transaction.transaction_date),
+            "reference_number": transaction.reference_number,
+            "notes": transaction.notes
+        }
+        for transaction in transactions
+    ]
+
